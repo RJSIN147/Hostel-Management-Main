@@ -76,6 +76,7 @@ The backend is already configured with:
    - **Start Command**: `npm start`
    - **Root Directory**: `server` (important!)
    - **Node Version**: `18.x` (or latest)
+   - **Auto-Deploy**: `Yes` (if you want automatic deployments)
 
 4. **Set Environment Variables** in Render:
    ```
@@ -173,24 +174,36 @@ REACT_APP_API_URL=https://your-backend-url.onrender.com
 
 ### Common Issues:
 
-1. **CORS Errors**:
+1. **Render Deployment Error: "Cannot find module '/opt/render/project/src/server/start'"**:
+   - **Problem**: Render is trying to run `node start` instead of `npm start`
+   - **Solution**: In Render dashboard, go to Settings → Environment and ensure:
+     - **Start Command**: `npm start` (not `node start`)
+     - **Root Directory**: `server`
+     - **Build Command**: `npm install`
+
+2. **CORS Errors**:
    - Ensure `FRONTEND_URL` is set correctly in backend
    - Check that the frontend URL matches exactly
 
-2. **Database Connection Issues**:
+3. **Database Connection Issues**:
    - Verify MongoDB Atlas IP whitelist includes `0.0.0.0/0`
    - Check connection string format
    - Ensure database user has correct permissions
 
-3. **Build Failures**:
+4. **Build Failures**:
    - Check that all dependencies are in `package.json`
    - Verify Node.js version compatibility
    - Check build logs for specific errors
 
-4. **API Calls Failing**:
+5. **API Calls Failing**:
    - Verify `REACT_APP_API_URL` is set correctly
    - Check network tab in browser dev tools
    - Ensure backend is running and accessible
+
+6. **Render Service Not Starting**:
+   - Check that `server/package.json` exists and has correct start script
+   - Verify the Root Directory is set to `server`
+   - Check the deployment logs for specific error messages
 
 ### Useful Commands:
 
