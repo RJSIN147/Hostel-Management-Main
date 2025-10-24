@@ -18,7 +18,7 @@ import {
   STUDENT_ROOM_NO_SUCCESS,
   STUDENT_ROOM_NO_ERROR,
 } from "../constants/studentConstant";
-import axios from "axios";
+import api from "../config/axios";
 
 export const listStudents = (keyword = "", pageNumber = "") => async (
   dispatch,
@@ -26,18 +26,8 @@ export const listStudents = (keyword = "", pageNumber = "") => async (
 ) => {
   try {
     dispatch({ type: STUDENT_LIST_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(
-      `/student/all?keyword=${keyword}&pageNumber=${pageNumber}`,
-      config
+    const { data } = await api.get(
+      `/student/all?keyword=${keyword}&pageNumber=${pageNumber}`
     );
     dispatch({
       type: STUDENT_LIST_SUCCESS,
@@ -57,16 +47,7 @@ export const listStudents = (keyword = "", pageNumber = "") => async (
 export const addStudent = (student) => async (dispatch, getState) => {
   try {
     dispatch({ type: STUDENT_ADD_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.post(`/student/addStudent`, student, config);
+    const { data } = await api.post(`/student/addStudent`, student);
 
     dispatch({
       type: STUDENT_ADD_SUCCESS,
@@ -86,16 +67,7 @@ export const addStudent = (student) => async (dispatch, getState) => {
 export const getStudentDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: STUDENT_DETAILS_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/student/${id}`, config);
+    const { data } = await api.get(`/student/${id}`);
 
     dispatch({
       type: STUDENT_DETAILS_SUCCESS,
@@ -115,19 +87,7 @@ export const getStudentDetails = (id) => async (dispatch, getState) => {
 export const updateStudent = (student) => async (dispatch, getState) => {
   try {
     dispatch({ type: STUDENT_UPDATE_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-    const { data } = await axios.put(
-      `/student/${student._id}`,
-      student,
-      config
-    );
+    const { data } = await api.put(`/student/${student._id}`, student);
 
     dispatch({
       type: STUDENT_UPDATE_SUCCESS,
@@ -147,16 +107,7 @@ export const updateStudent = (student) => async (dispatch, getState) => {
 export const deleteStudent = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: STUDENT_DELETE_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.delete(`/student/${id}`, config);
+    const { data } = await api.delete(`/student/${id}`);
 
     dispatch({
       type: STUDENT_DELETE_SUCCESS,
@@ -176,16 +127,7 @@ export const deleteStudent = (id) => async (dispatch, getState) => {
 export const getStudentsByRoomNo = (roomNo) => async (dispatch, getState) => {
   try {
     dispatch({ type: STUDENT_ROOM_NO_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/student/room/${roomNo}`, config);
+    const { data } = await api.get(`/student/room/${roomNo}`);
     dispatch({
       type: STUDENT_ROOM_NO_SUCCESS,
       payload: data,

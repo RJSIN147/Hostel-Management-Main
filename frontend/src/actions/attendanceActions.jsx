@@ -9,21 +9,12 @@ import {
   ATTENDANCE_DELETE_SUCCESS,
   ATTENDANCE_DELETE_FAIL,
 } from "../constants/attendanceConstant";
-import axios from "axios";
+import api from "../config/axios";
 
 export const postAttendance = (attendance) => async (dispatch, getState) => {
   try {
     dispatch({ type: ATTENDANCE_DATA_ENTER_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.post(`/attendance/`, attendance, config);
+    const { data } = await api.post(`/attendance/`, attendance);
     dispatch({
       type: ATTENDANCE_DATA_ENTER_SUCCESS,
       payload: data,

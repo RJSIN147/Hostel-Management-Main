@@ -4,6 +4,7 @@ import studentRoutes from "./routes/studentRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 import path from "path";
 import morgan from "morgan";
+import cors from "cors";
 
 import dotenv from "dotenv";
 import connectDB from "./config/mongoDBConfig.js";
@@ -11,6 +12,12 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 dotenv.config();
 connectDB();
 const app = express();
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  credentials: true
+}));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
